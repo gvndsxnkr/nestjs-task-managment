@@ -9,7 +9,7 @@ import {
   ForeignKey,
 } from 'sequelize-typescript';
 import { TaskStatus } from './tasks-status.enum';
-import { User } from 'src/auth/user.entity';
+import { User } from '../auth/user.entity';
 
 @Table({ paranoid: true, timestamps: true })
 export class Task extends Model {
@@ -19,22 +19,25 @@ export class Task extends Model {
   declare id: string;
 
   @Column({ allowNull: false })
-  declare title: string;
+  title: string;
 
   @Column({ allowNull: false })
-  declare description: string;
+  description: string;
 
   @Column({
     type: DataType.ENUM(...Object.values(TaskStatus)),
     allowNull: false,
     defaultValue: TaskStatus.OPEN,
   })
-  declare status: TaskStatus;
+  status: TaskStatus;
 
   @ForeignKey(() => User)
-  @Column(DataType.UUID)
-  declare userId: string;
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+  })
+  userId: string;
 
   @BelongsTo(() => User)
-  declare user: User;
+  user: User;
 }

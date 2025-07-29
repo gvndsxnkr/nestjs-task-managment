@@ -9,7 +9,7 @@ import {
 } from 'sequelize-typescript';
 import { Task } from 'src/tasks/task.entity';
 
-@Table
+@Table({ paranoid: true, timestamps: true })
 export class User extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)
@@ -23,5 +23,5 @@ export class User extends Model {
   declare password: string;
 
   @HasMany(() => Task)
-  tasks: Task[];
+  declare tasks: Task[];
 }
